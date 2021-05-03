@@ -1,0 +1,1 @@
+# Research-and-prediction-of-stock-characteristic-K-line-graph-based-on-Neural-Network
