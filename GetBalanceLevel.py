@@ -71,7 +71,7 @@ def getMAData(security, date, count):
         return 1
     
     
-ts.set_token('3ac5d90905e0e9bc413cfda768fff87ee0781a80702093b014c6cff4')
+ts.set_token('****')
 api = ts.pro_api()
 times = 14  # 对于每一个茶柄形状的形成点要把包括前面的times天也放进随机森林
 data = []  # 用来存储获得的字典列表以写入csv文件
