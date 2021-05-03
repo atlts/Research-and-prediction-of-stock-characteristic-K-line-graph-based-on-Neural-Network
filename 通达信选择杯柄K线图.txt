@@ -1,0 +1,61 @@
+HH1:=REF(HHV(H,120),1);{杯左侧高点}
+DH1:=REF(HHVBARS(H,120),1) + 1;{杯左侧高点距检测点天数}
+DH1DAY:=REF(DATE, DH1) - 1000000;
+
+LL1:=REF(LLV(L,DH1 - 1),1);{B}{杯底点}
+DL1:=REF(LLVBARS(L,DH1 - 1),1) + 1;{杯底点距检测点天数}
+DL1DAY:=REF(DATE, DL1) - 1000000;
+
+LL11 := REF(LLV(L,30),DH1);
+
+HH2:=REF(HHV(H,DL1-1),1);{杯柄左侧高点}
+DH2 := REF(HHVBARS(H,DL1 - 1),1) + 1;{杯柄左侧距检测点天数}
+DH2DAY:=REF(DATE, DH2) - 1000000;
+
+LL2:=REF(LLV(L,DH2 - 1),1);{B}{杯柄低点}
+DL2:=REF(LLVBARS(L,DH2 - 1),1) + 1;{杯柄低点距检测点天数}
+DL2DAY:=REF(DATE, DL2) - 1000000;
+
+CON1 := LL1 >= 0.67 * HH1;{条件1：杯底回调幅度大于LHGAP}
+
+CON2 := LL2 >= 0.8 * HH2;{条件2：杯柄底回调幅度大于LHGAP}
+
+CON3 := LL2 > LL1 * 1.05 AND HH1 > HH2 *1.05;{条件3：杯柄低点高于杯底，杯柄左侧高点低于杯左侧高点，幅度目前为L21GAP,这部分可以用比较典型的成功的杯柄形态来调整}
+
+CON4 := HH2 > LL1 * 1.1; {条件4：杯柄左侧高点相对杯底有一定涨幅，幅度再调整H21GAP}
+
+CON5 := H >  HH2;{检测点当天最高价高于杯柄左侧高点，突破成功}
+
+CON6 := DL2 > 3   AND  (DH2 - DL2) > 3 AND (DL1 - DH2) >= 5 AND (DH1 - DL1) >= 5 AND DH1 >= 20; {杯底和杯柄形成都需要一定天数}
+
+CON7 := VOL > REF(MA(VOL,5),1) * 1.25;{杯柄形成当天成交量比NORMAL高出VOLGAP}
+
+CON8 := HH1 > LL11 * 1.3;
+
+FLAG: CON1 AND CON2 AND CON3 AND CON4 AND CON5 AND CON6 AND CON7 AND CON8;
+
+T1 := BARSLAST(FLAG);
+T2 := REF(BARSLAST(FLAG),T1 + 1) + T1 + 1;
+T3 := REF(BARSLAST(FLAG),T2 + 1) + T2 + 1;
+T4 := REF(BARSLAST(FLAG),T3 + 1) + T3 + 1;
+T5 := REF(BARSLAST(FLAG),T4 + 1) + T4 + 1;
+T6 := REF(BARSLAST(FLAG),T5 + 1) + T5 + 1;
+T7 := REF(BARSLAST(FLAG),T6 + 1) + T6 + 1;
+T8 := REF(BARSLAST(FLAG),T7 + 1) + T7 + 1;
+T9 := REF(BARSLAST(FLAG),T8 + 1) + T8 + 1;
+T10 := REF(BARSLAST(FLAG),T9 + 1) + T9 + 1;
+
+DAYS1:REF(DATE, T1) - 1000000;
+DAYS2:REF(DATE, T2) - 1000000;
+DAYS3:REF(DATE, T3) - 1000000;
+DAYS4:REF(DATE, T4) - 1000000;
+DAYS5:REF(DATE, T5) - 1000000;
+DAYS6:REF(DATE, T6) - 1000000;
+DAYS7:REF(DATE, T7) - 1000000;
+DAYS8:REF(DATE, T8) - 1000000;
+DAYS9:REF(DATE, T9) - 1000000;
+DAYS10:REF(DATE, T10) - 1000000;
+
+
+
+DRAWTEXT(FLAG,CLOSE,'杯柄');
